@@ -777,6 +777,12 @@ export class KitManager implements vscode.Disposable {
       await this._rereadKits();
     } else {
       await this.rescanForKits();
+
+      if (process.env['CMT_TESTING'] === '1') {
+        log.warning('Running CMakeTools in test mode. Not showing prompt for editing the kits file.');
+        return;
+      }
+
       interface DoOpen extends vscode.MessageItem {
         doOpen: boolean;
       }
