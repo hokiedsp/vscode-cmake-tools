@@ -269,7 +269,10 @@ export class CMakeTools implements vscode.Disposable, api.CMakeToolsAPI {
     this._statusBar.setLaunchTargetName(this._stateManager.launchTargetName || '');
     // Start up the kit manager
     await this._kitManager.initialize();
+    log.debug('KitManager initialized');
+
     this._statusBar.setActiveKitName(this._kitManager.activeKit ? this._kitManager.activeKit.name : '');
+    log.debug('Set active kit name in status bar');
 
     // Hook up event handlers
     // Listen for the variant to change
@@ -284,6 +287,8 @@ export class CMakeTools implements vscode.Disposable, api.CMakeToolsAPI {
         }
       })
     });
+    log.debug('Set onActiveVariantChanged');
+
     // Listen for the kit to change
     this._kitManager.onActiveKitChanged(kit => {
       log.debug('Active CMake Kit changed:', kit ? kit.name : 'null');
@@ -298,13 +303,17 @@ export class CMakeTools implements vscode.Disposable, api.CMakeToolsAPI {
         this._statusBar.setActiveKitName(kit ? kit.name : '');
       });
     });
+    log.debug('Set onActiveKitChanged');
+
     this._ctestController.onTestingEnabledChanged(enabled => { this._statusBar.ctestEnabled = enabled; });
     this._ctestController.onResultsChanged(res => { this._statusBar.testResults = res; });
 
     this._statusBar.setStatusMessage('Ready');
+    log.debug('StatusBar: Ready');
 
     // Additional, non-extension: Start up nagging.
     this._nagManager.start();
+    log.debug('Started NagManager');
   }
 
   /**

@@ -77,7 +77,7 @@ class DefaultEnvironment {
   public teardown(): void { this.sandbox.restore(); }
 }
 
-(process.env.HasVs == 'true' ? suite : suite.skip)('Build', async() => {
+(process.env.HasVs === 'true' ? suite : suite.skip)('Build', async() => {
   let cmt: CMakeTools;
   let testEnv: DefaultEnvironment;
 
@@ -86,6 +86,7 @@ class DefaultEnvironment {
     testEnv = new DefaultEnvironment();
 
     cmt = await getExtension();
+    // tslint:disable-next-line:no-unused-expression
     expect(cmt).to.be.not.undefined;
 
     // This test will use all on the same kit.
@@ -108,6 +109,7 @@ class DefaultEnvironment {
   test('Configure ', async() => {
     expect(await cmt.configure()).to.be.eq(0);
 
+    // tslint:disable-next-line:no-unused-expression
     expect(await testEnv.buildDir.IsCMakeCachePresent).to.be.true;
   }).timeout(60000);
 
